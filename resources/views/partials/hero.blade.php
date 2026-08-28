@@ -72,7 +72,7 @@
 
         <h1 class="font-extrabold text-white leading-tight mb-3 md:mb-4"
             style="font-size:clamp(28px,7vw,56px);line-height:1.1;">
-            Test Find Love at <br>
+            Find Love at <br>
             <span style="color:#961BCF;">Your Own Pace</span>
         </h1>
 
