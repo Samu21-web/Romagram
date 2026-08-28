@@ -42,7 +42,7 @@
             </p>
         </div>
 
-        <div style="margin-bottom:24px;">
+        <div style="margin-bottom:8px;">
             <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">Password</label>
             <div style="position:relative;">
                 <input type="password" id="loginPassword" placeholder="Enter your password"
@@ -53,6 +53,10 @@
                 </button>
             </div>
         </div>
+
+        <p style="text-align:right; margin-top:0; margin-bottom:24px;">
+            <a href="#" onclick="switchModal('loginModal','forgotPasswordModal')" style="color:#720e9e; font-size:13px; font-weight:600; text-decoration:none;">Forgot password?</a>
+        </p>
 
         <button onclick="submitLogin()"
             style="width:100%; background:#720e9e; color:white; font-weight:700; font-size:16px; padding:14px; border:none; border-radius:5px; cursor:pointer; box-shadow:0 4px 14px rgba(114,14,158,0.3);">
@@ -305,6 +309,107 @@
     </div>
 </div>
 
+<!-- ─── FORGOT PASSWORD MODAL ─── -->
+<div id="forgotPasswordModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:101; width:100%; max-width:440px; padding:0 16px;">
+    <div style="background:white; border-radius:5px; padding:40px; box-shadow:0 20px 60px rgba(0,0,0,0.3); position:relative;">
+
+        <button onclick="closeAllModals()" style="position:absolute; top:16px; right:20px; background:none; border:none; font-size:20px; color:#9ca3af; cursor:pointer;">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+@if($errors->resetPassword->any())
+    <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:12px 16px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
+        <i class="fa-solid fa-circle-exclamation" style="color:#ef4444; font-size:16px; flex-shrink:0;"></i>
+        <p style="color:#dc2626; font-size:14px; margin:0;">{{ $errors->resetPassword->first() }}</p>
+    </div>
+@endif
+
+        {{-- ── Step: enter email ── --}}
+        <div id="fpStepEmail" style="{{ session('reset_step') && session('reset_step') !== 'email' ? 'display:none;' : '' }}">
+            <div style="text-align:center; margin-bottom:24px;">
+                <h2 style="font-size:22px; font-weight:800; color:#111827; margin:0;">Reset your password</h2>
+                <p style="color:#6b7280; font-size:14px; margin-top:6px;">Enter your email and we'll send you a code</p>
+            </div>
+
+            <form method="POST" action="{{ route('password.send-code') }}">
+                @csrf
+                <div style="margin-bottom:24px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">Email Address</label>
+                    <input type="email" name="email" placeholder="you@example.com" required
+                        style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:15px; color:#111827; outline:none; box-sizing:border-box;">
+                </div>
+                <button type="submit" style="width:100%; background:#720e9e; color:white; font-weight:700; font-size:16px; padding:14px; border:none; border-radius:5px; cursor:pointer;">
+                    Send Reset Code
+                </button>
+            </form>
+
+            <p style="text-align:center; color:#6b7280; font-size:14px; margin-top:20px;">
+                <a href="#" onclick="switchModal('forgotPasswordModal','loginModal')" style="color:#720e9e; font-weight:600; text-decoration:none;">Back to sign in</a>
+            </p>
+        </div>
+
+        {{-- ── Step: enter code ── --}}
+        <div id="fpStepCode" style="{{ session('reset_step') === 'code' ? '' : 'display:none;' }}">
+            <div style="text-align:center; margin-bottom:24px;">
+                <h2 style="font-size:22px; font-weight:800; color:#111827; margin:0;">Enter the code</h2>
+                <p style="color:#6b7280; font-size:14px; margin-top:6px;">We sent a 6-digit code to {{ session('reset_email') }}</p>
+            </div>
+
+            <form method="POST" action="{{ route('password.verify-code') }}">
+                @csrf
+                <input type="hidden" name="email" value="{{ session('reset_email') }}">
+                <div style="margin-bottom:24px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">Reset Code</label>
+                    <input type="text" name="code" placeholder="123456" maxlength="6" required
+                        style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:20px; text-align:center; letter-spacing:6px; color:#111827; outline:none; box-sizing:border-box;">
+                </div>
+                <button type="submit" style="width:100%; background:#720e9e; color:white; font-weight:700; font-size:16px; padding:14px; border:none; border-radius:5px; cursor:pointer;">
+                    Verify Code
+                </button>
+            </form>
+
+            <p style="text-align:center; color:#6b7280; font-size:13px; margin-top:16px;">
+                Didn't get it?
+                <a href="{{ route('password.send-code') }}" onclick="event.preventDefault(); document.getElementById('resendForm').submit();" style="color:#720e9e; font-weight:600; text-decoration:none;">Resend code</a>
+                <form id="resendForm" method="POST" action="{{ route('password.send-code') }}" style="display:none;">
+                    @csrf
+                    <input type="hidden" name="email" value="{{ session('reset_email') }}">
+                </form>
+            </p>
+        </div>
+
+        {{-- ── Step: new password ── --}}
+        <div id="fpStepPassword" style="{{ session('reset_step') === 'password' ? '' : 'display:none;' }}">
+            <div style="text-align:center; margin-bottom:24px;">
+                <h2 style="font-size:22px; font-weight:800; color:#111827; margin:0;">Set a new password</h2>
+            </div>
+
+            <form method="POST" action="{{ route('password.reset') }}">
+                @csrf
+                <input type="hidden" name="email" value="{{ session('reset_email') }}">
+                <input type="hidden" name="code" value="{{ session('reset_code') }}">
+
+                <div style="margin-bottom:16px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">New Password</label>
+                    <input type="password" name="password" placeholder="Min 8 characters" required
+                        style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:15px; color:#111827; outline:none; box-sizing:border-box;">
+                </div>
+
+                <div style="margin-bottom:24px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">Confirm Password</label>
+                    <input type="password" name="password_confirmation" placeholder="Repeat password" required
+                        style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:15px; color:#111827; outline:none; box-sizing:border-box;">
+                </div>
+
+                <button type="submit" style="width:100%; background:#720e9e; color:white; font-weight:700; font-size:16px; padding:14px; border:none; border-radius:5px; cursor:pointer;">
+                    Reset Password
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
 @push('scripts')
 <script>
     // ── Modal controls ──
@@ -535,5 +640,20 @@
         document.body.appendChild(form);
         form.submit();
     }
+
+    // ── Auto-open forgot password modal on the right step after redirect ──
+    @if(session('reset_step'))
+        document.addEventListener('DOMContentLoaded', function () {
+            openModal('forgotPasswordModal');
+        });
+    @endif
+
+    @if(session('reset_success'))
+        document.addEventListener('DOMContentLoaded', function () {
+            alert('Password reset successfully! Please sign in with your new password.');
+            openModal('loginModal');
+        });
+    @endif
 </script>
 @endpush
+#fef2f2

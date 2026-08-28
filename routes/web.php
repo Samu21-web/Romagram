@@ -11,6 +11,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MatchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 // ── Public ──
 Route::get('/', fn() => view('home'))->name('home');
@@ -30,6 +31,9 @@ Route::post('/login',    [AuthController::class, 'login'])
     ->middleware('throttle:5,1')
     ->name('login.post');
 Route::post('/logout',   [AuthController::class, 'logout'])->name('logout');
+Route::post('/forgot-password/send-code',   [ForgotPasswordController::class, 'sendCode'])->middleware('throttle:5,1')->name('password.send-code');
+Route::post('/forgot-password/verify-code', [ForgotPasswordController::class, 'verifyCode'])->name('password.verify-code');
+Route::post('/forgot-password/reset',       [ForgotPasswordController::class, 'reset'])->name('password.reset');
 
 // ── Authenticated ──
 Route::middleware('auth')->group(function () {
