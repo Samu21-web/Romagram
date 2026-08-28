@@ -10,10 +10,10 @@
         </button>
 
         <div style="text-align:center; margin-bottom:28px;">
-            @if($errors->any())
+            @if($errors->default->any())
     <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:12px 16px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
         <i class="fa-solid fa-circle-exclamation" style="color:#ef4444; font-size:16px; flex-shrink:0;"></i>
-        <p style="color:#dc2626; font-size:14px; margin:0;">{{ $errors->first() }}</p>
+        <p style="color:#dc2626; font-size:14px; margin:0;">{{ $errors->default->first() }}</p>
     </div>
 @endif
             <img src="{{ asset('logo.png') }}" alt="Rompace" style="height:48px; margin-bottom:12px;">
@@ -317,12 +317,12 @@
             <i class="fa-solid fa-xmark"></i>
         </button>
 
-@if($errors->resetPassword->any())
-    <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:12px 16px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
-        <i class="fa-solid fa-circle-exclamation" style="color:#ef4444; font-size:16px; flex-shrink:0;"></i>
-        <p style="color:#dc2626; font-size:14px; margin:0;">{{ $errors->resetPassword->first() }}</p>
-    </div>
-@endif
+        @if($errors->resetPassword->any())
+            <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:12px 16px; margin-bottom:20px; display:flex; align-items:center; gap:10px;">
+                <i class="fa-solid fa-circle-exclamation" style="color:#ef4444; font-size:16px; flex-shrink:0;"></i>
+                <p style="color:#dc2626; font-size:14px; margin:0;">{{ $errors->resetPassword->first() }}</p>
+            </div>
+        @endif
 
         {{-- ── Step: enter email ── --}}
         <div id="fpStepEmail" style="{{ session('reset_step') && session('reset_step') !== 'email' ? 'display:none;' : '' }}">
@@ -370,7 +370,7 @@
 
             <p style="text-align:center; color:#6b7280; font-size:13px; margin-top:16px;">
                 Didn't get it?
-                <a href="{{ route('password.send-code') }}" onclick="event.preventDefault(); document.getElementById('resendForm').submit();" style="color:#720e9e; font-weight:600; text-decoration:none;">Resend code</a>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('resendForm').submit();" style="color:#720e9e; font-weight:600; text-decoration:none;">Resend code</a>
                 <form id="resendForm" method="POST" action="{{ route('password.send-code') }}" style="display:none;">
                     @csrf
                     <input type="hidden" name="email" value="{{ session('reset_email') }}">
@@ -648,12 +648,18 @@
         });
     @endif
 
+    // ── Password reset success ──
     @if(session('reset_success'))
         document.addEventListener('DOMContentLoaded', function () {
-            alert('Password reset successfully! Please sign in with your new password.');
-            openModal('loginModal');
+            Swal.fire({
+                icon: 'success',
+                title: 'Password Reset!',
+                text: 'Your password has been reset successfully. Please sign in with your new password.',
+                confirmButtonColor: '#720e9e'
+            }).then(() => {
+                openModal('loginModal');
+            });
         });
     @endif
 </script>
 @endpush
-#fef2f2

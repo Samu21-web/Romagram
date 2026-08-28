@@ -19,7 +19,7 @@ class ForgotPasswordController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return back()->withErrors(['email' => 'No account found with this email address.'])
+            return back()->withErrors(['email' => 'No account found with this email address.'], 'resetPassword')
                 ->with('reset_step', 'email');
         }
 
@@ -30,7 +30,7 @@ class ForgotPasswordController extends Controller
             ['token' => Hash::make($code), 'created_at' => now()]
         );
 
-        Mail::raw("Your Romagram password reset code is: {$code}\n\nThis code expires in 15 minutes.", function ($message) use ($request) {
+        Mail::send('emails.reset-code', ['code' => $code], function ($message) use ($request) {
             $message->to($request->email)->subject('Your Romagram Password Reset Code');
         });
 
@@ -48,12 +48,12 @@ class ForgotPasswordController extends Controller
         $record = DB::table('password_reset_tokens')->where('email', $request->email)->first();
 
         if (!$record || !Hash::check($request->code, $record->token)) {
-            return back()->withErrors(['code' => 'Invalid or expired code.'])
+            return back()->withErrors(['code' => 'Invalid or expired code.'], 'resetPassword')
                 ->with('reset_step', 'code')->with('reset_email', $request->email);
         }
 
         if (now()->diffInMinutes($record->created_at) > 15) {
-            return back()->withErrors(['code' => 'This code has expired. Please request a new one.'])
+            return back()->withErrors(['code' => 'This code has expired. Please request a new one.'], 'resetPassword')
                 ->with('reset_step', 'email');
         }
 
@@ -74,13 +74,13 @@ class ForgotPasswordController extends Controller
         $record = DB::table('password_reset_tokens')->where('email', $request->email)->first();
 
         if (!$record || !Hash::check($request->code, $record->token)) {
-            return back()->withErrors(['code' => 'Invalid or expired code.'])->with('reset_step', 'email');
+            return back()->withErrors(['code' => 'Invalid or expired code.'], 'resetPassword')->with('reset_step', 'email');
         }
 
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return back()->withErrors(['email' => 'No account found.'])->with('reset_step', 'email');
+            return back()->withErrors(['email' => 'No account found.'], 'resetPassword')->with('reset_step', 'email');
         }
 
         $user->update(['password' => Hash::make($request->password)]);
