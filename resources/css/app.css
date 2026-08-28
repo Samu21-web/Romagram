@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        font-family: 'Inter', sans-serif;
+    }
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-primary {
+    display: inline-block;
+    background: #720e9e;
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 14px rgba(114,14,158,0.3);
+    cursor: pointer;
+}
+
+.btn-primary:hover { opacity: 0.9; }
+
+.btn-outline {
+    display: inline-block;
+    border: 2px solid #720e9e;
+    color: #720e9e;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.btn-outline:hover { background: #faf5ff; }
+
+.input-field {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px 16px;
+    color: #1f2937;
+    outline: none;
+    background: white;
+    transition: border 0.2s;
+}
+
+.input-field:focus { border-color: #720e9e; }
+
+.text-gradient {
+    background: linear-gradient(to right, #720e9e, #9b1bc7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Discover Grid ── */
+.rp-discover-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+/* ── Mobile Responsive ── */
+@media (max-width: 1280px) {
+    .rp-discover-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .rp-discover-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .rp-nav-inner {
+        padding: 14px 16px !important;
+    }
+
+    .rp-hero-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .rp-hero-visual {
+        display: none !important;
+    }
+
+    .rp-hero-text h1 {
+        font-size: 32px !important;
+    }
+
+    .rp-hero-text p {
+        font-size: 15px !important;
+    }
+
+    .rp-hero-btns {
+        flex-direction: column !important;
+    }
+
+    .rp-hero-btns a {
+        text-align: center;
+    }
+
+    .rp-trust-badges {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    .rp-stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+
+    .rp-features-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .rp-hiw-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .rp-pricing-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .rp-testimonials-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .rp-footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 32px !important;
+    }
+
+    .rp-footer-bottom {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+
+    .rp-cta h2 {
+        font-size: 28px !important;
+    }
+
+    .rp-section {
+        padding: 48px 16px !important;
+    }
+
+    .rp-discover-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+    }
+
+    /* Smaller cards on mobile */
+    .rp-discover-grid .card-photo {
+        height: 200px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .rp-hero-text h1 {
+        font-size: 28px !important;
+    }
+
+    .rp-pricing-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .rp-discover-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+}

@@ -1,0 +1,4 @@
+[08-Jul-2026 11:44:40 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function symlink() in /home/inficoms/romagram.com/clear.php:24
+Stack trace:
+#0 {main}
+  thrown in /home/inficoms/romagram.com/clear.php on line 24
