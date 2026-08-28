@@ -27,6 +27,11 @@ return [
     'secret_key' => env('PAYSTACK_SECRET_KEY'),
 ],
 
+'africastalking' => [
+    'username' => env('AFRICASTALKING_USERNAME'),
+    'api_key'  => env('AFRICASTALKING_API_KEY'),
+],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
