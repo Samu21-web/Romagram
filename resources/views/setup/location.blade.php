@@ -17,7 +17,7 @@
                 <i class="fa-solid fa-location-dot" style="font-size:42px; color:white;"></i>
             </div>
             <p style="color:#374151; font-size:15px; line-height:1.7; margin-bottom:24px;">
-                Rompace needs your location to show you people nearby. Your exact location is never shared with other users.
+                Romagram needs your location to show you people nearby. Your exact location is never shared with other users.
             </p>
             <button onclick="getLocation()"
                 style="width:100%; background:#720e9e; color:white; font-weight:700; font-size:16px; padding:14px; border:none; border-radius:999px; cursor:pointer; box-shadow:0 4px 14px rgba(114,14,158,0.3);">
