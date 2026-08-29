@@ -641,7 +641,8 @@
     }
 
     function selectCountry(prefix, country) {
-        document.getElementById(prefix + 'CountryCode').value = country.code;
+        const hiddenId = prefix === 'reg' ? 'countryCode' : (prefix + 'CountryCode');
+        document.getElementById(hiddenId).value = country.code;
         document.getElementById(prefix + 'CountryCodeText').textContent = country.code;
         document.getElementById(prefix + 'CountryFlag').src = `https://flagcdn.com/20x15/${country.iso}.png`;
         document.getElementById(prefix + 'CountryDropdown').style.display = 'none';
