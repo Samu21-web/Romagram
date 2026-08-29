@@ -33,7 +33,7 @@ class AuthController extends Controller
             'age'           => $request->age,
         ]);
 
-        Auth::login($user);
+        Auth::login($user, true);
 
         return redirect()->route('setup.location');
     }
@@ -66,7 +66,7 @@ class AuthController extends Controller
             ])->withInput();
         }
 
-        Auth::login($user);
+        Auth::login($user, true);
 
         return redirect()->route('discover');
     }
