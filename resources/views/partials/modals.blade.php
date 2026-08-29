@@ -63,7 +63,7 @@
             Sign In
         </button>
 
-        <p style="text-align:center; color:#6b7280; font-size:14px; margin-top:20px;">
+        <p style="text-align:center; color:#6b7280; font-size:16px; margin-top:20px;">
             Don't have an account?
             <a href="#" onclick="switchModal('loginModal','registerModal')" style="color:#720e9e; font-weight:600; text-decoration:none;">Join free</a>
         </p>
@@ -201,6 +201,24 @@
                     <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>Please enter a valid email address
                 </p>
             </div>
+    
+    <div style="margin-bottom:24px;">
+    <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">County</label>
+    <select id="regCity"
+        style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:15px; color:#111827; outline:none; box-sizing:border-box; background:white;">
+        <option value="">Select your county</option>
+        <option>Mombasa</option><option>Kwale</option><option>Kilifi</option><option>Tana River</option><option>Lamu</option>
+        <option>Taita-Taveta</option><option>Garissa</option><option>Wajir</option><option>Mandera</option><option>Marsabit</option>
+        <option>Isiolo</option><option>Meru</option><option>Tharaka-Nithi</option><option>Embu</option><option>Kitui</option>
+        <option>Machakos</option><option>Makueni</option><option>Nyandarua</option><option>Nyeri</option><option>Kirinyaga</option>
+        <option>Murang'a</option><option>Kiambu</option><option>Turkana</option><option>West Pokot</option><option>Samburu</option>
+        <option>Trans Nzoia</option><option>Uasin Gishu</option><option>Elgeyo-Marakwet</option><option>Nandi</option><option>Baringo</option>
+        <option>Laikipia</option><option>Nakuru</option><option>Narok</option><option>Kajiado</option><option>Kericho</option>
+        <option>Bomet</option><option>Kakamega</option><option>Vihiga</option><option>Bungoma</option><option>Busia</option>
+        <option>Siaya</option><option>Kisumu</option><option>Homa Bay</option><option>Migori</option><option>Kisii</option>
+        <option>Nyamira</option><option>Nairobi</option>
+    </select>
+</div>
 
             <div style="display:flex; gap:12px;">
                 <button onclick="prevStep(3)" style="flex:1; border:2px solid #e5e7eb; background:white; color:#6b7280; font-weight:600; font-size:15px; padding:13px; border-radius:999px; cursor:pointer;">
@@ -619,17 +637,18 @@
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '/register';
-        const fields = {
-            '_token': '{{ csrf_token() }}',
-            'gender': selectedGender,
-            'interested_in': selectedLooking,
-            'name': document.getElementById('regNickname').value,
-            'phone': document.getElementById('countryCode').value + document.getElementById('regPhone').value,
-            'email': document.getElementById('regEmail').value,
-            'age': selectedAge,
-            'password': password,
-            'password_confirmation': confirm,
-        };
+const fields = {
+    '_token': '{{ csrf_token() }}',
+    'gender': selectedGender,
+    'interested_in': selectedLooking,
+    'name': document.getElementById('regNickname').value,
+    'phone': document.getElementById('countryCode').value + document.getElementById('regPhone').value,
+    'email': document.getElementById('regEmail').value,
+    'city': document.getElementById('regCity').value,
+    'age': selectedAge,
+    'password': password,
+    'password_confirmation': confirm,
+};
         Object.entries(fields).forEach(([key, val]) => {
             const input = document.createElement('input');
             input.type = 'hidden';

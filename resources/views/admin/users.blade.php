@@ -61,7 +61,6 @@
                 <tr style="border-bottom:1px solid #21262d;">
                     <th style="text-align:left; padding:14px 20px; color:#8b949e; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">#</th>
                     <th style="text-align:left; padding:14px 20px; color:#8b949e; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">User</th>
-                    <th style="text-align:left; padding:14px 20px; color:#8b949e; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Phone</th>
                     <th style="text-align:left; padding:14px 20px; color:#8b949e; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">City</th>
                     <th style="text-align:left; padding:14px 20px; color:#8b949e; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Gender</th>
                     <th style="text-align:left; padding:14px 20px; color:#8b949e; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px;">Type</th>
@@ -91,10 +90,10 @@
                                         @endif
                                     </p>
                                     <p style="color:#8b949e; font-size:12px; margin:0;">{{ $user->email }}</p>
+                                    <p style="color:#8b949e; font-size:12px; margin:0;">{{ $user->phone ?? '-' }}</p>
                                 </div>
                             </div>
                         </td>
-                        <td style="padding:14px 20px; color:#d1d7db; font-size:13px;">{{ $user->phone ?? '-' }}</td>
                         <td style="padding:14px 20px; color:#d1d7db; font-size:13px;">{{ $user->city ?? '-' }}</td>
                         <td style="padding:14px 20px;">
                             <span style="background:{{ $user->gender === 'male' ? 'rgba(59,130,246,0.15)' : 'rgba(236,72,153,0.15)' }}; color:{{ $user->gender === 'male' ? '#60a5fa' : '#f472b6' }}; font-size:11px; font-weight:600; padding:3px 10px; border-radius:999px;">
@@ -125,7 +124,7 @@
                         </td>
                         <td style="padding:14px 20px; color:#8b949e; font-size:13px;">{{ $user->created_at->format('M d, Y') }}</td>
                         <td style="padding:14px 20px;">
-                            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
                                 <a href="{{ route('profile.view', $user->id) }}" target="_blank"
                                     style="background:#21262d; border:1px solid #30363d; color:#d1d7db; font-size:12px; font-weight:500; padding:5px 10px; border-radius:6px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
                                     <i class="fa-solid fa-eye"></i> View
@@ -153,7 +152,23 @@
                                             <i class="fa-solid fa-rotate-right"></i> Reactivate
                                         </button>
                                     </form>
+                                @else
+                                    <form method="POST" action="{{ route('admin.user.deactivate', $user->id) }}" style="display:inline;" onsubmit="return confirm('Deactivate {{ $user->name }}? They will not be able to log in.');">
+                                        @csrf
+                                        <button type="submit"
+                                            style="background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.3); color:#f97316; font-size:12px; font-weight:500; padding:5px 10px; border-radius:6px; cursor:pointer;">
+                                            <i class="fa-solid fa-power-off"></i> Deactivate
+                                        </button>
+                                    </form>
                                 @endif
+                                <form method="POST" action="{{ route('admin.user.delete', $user->id) }}" style="display:inline;" onsubmit="return confirm('Permanently delete {{ $user->name }}? This cannot be undone.');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; font-size:12px; font-weight:500; padding:5px 10px; border-radius:6px; cursor:pointer;">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

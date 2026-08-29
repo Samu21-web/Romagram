@@ -7,36 +7,41 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class AuthController extends Controller
 {
     // ── Register ──
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name'             => 'required|string|min:2|max:30',
-            'email'            => 'required|email|unique:users,email',
-            'phone'            => 'required|unique:users,phone',
-            'password'         => 'required|min:8|confirmed',
-            'gender'           => 'required|in:male,female',
-            'interested_in' => 'required|in:male,female,any',
-            'age'              => 'required|integer|min:18|max:80',
-        ]);
+public function register(Request $request)
+{
+    $request->validate([
+        'name'             => 'required|string|min:2|max:30',
+        'email'            => 'required|email|unique:users,email',
+        'phone'            => 'required|unique:users,phone',
+        'password'         => 'required|min:8|confirmed',
+        'gender'           => 'required|in:male,female',
+        'interested_in'    => 'required|in:male,female,any',
+        'age'              => 'required|integer|min:18|max:80',
+        'city'             => 'nullable|string',
+    ]);
 
-        $user = User::create([
-            'name'          => $request->name,
-            'email'         => $request->email,
-            'phone'         => $request->phone,
-            'password'      => Hash::make($request->password),
-            'gender'        => $request->gender,
-            'interested_in' => $request->interested_in,
-            'age'           => $request->age,
-        ]);
+    $user = User::create([
+        'name'          => $request->name,
+        'email'         => $request->email,
+        'phone'         => $request->phone,
+        'password'      => Hash::make($request->password),
+        'gender'        => $request->gender,
+        'interested_in' => $request->interested_in,
+        'age'           => $request->age,
+        'city'          => $request->city,
+    ]);
 
-        Auth::login($user, true);
+    Auth::login($user, true);
 
-        return redirect()->route('setup.location');
-    }
+    return redirect()->route('setup.location');
+}
 
     // ── Login ──
     public function login(Request $request)
@@ -106,19 +111,26 @@ class AuthController extends Controller
     }
 
     // ── Save photos ──
-    public function savePhotos(Request $request)
-    {
-        $request->validate([
-            'avatar' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
-        ]);
+public function savePhotos(Request $request)
+{
+    $request->validate([
+        'avatar' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
+    ]);
 
-        $path = $request->file('avatar')->store('avatars', 'public');
+    $filename = 'avatars/' . uniqid() . '.webp';
 
-        auth()->user()->update([
-            'avatar'           => $path,
-            'profile_complete' => true,
-        ]);
+    $manager = new ImageManager(new Driver());
+    $image = $manager->read($request->file('avatar'))
+        ->scaleDown(width: 800)
+        ->toWebp(quality: 80);
 
-        return redirect()->route('discover');
-    }
+    \Storage::disk('public')->put($filename, $image->toString());
+
+    auth()->user()->update([
+        'avatar'           => $filename,
+        'profile_complete' => true,
+    ]);
+
+    return redirect()->route('discover');
+}
 }

@@ -82,6 +82,16 @@ public function reactivateUser($id)
     return back()->with('success', 'User reactivated successfully.');
 }
 
+public function deactivateUser($id)
+{
+    $user = User::findOrFail($id);
+    $user->update([
+        'deactivated_at' => now(),
+        'is_deactivated' => true,
+    ]);
+    return back()->with('success', 'User deactivated successfully.');
+}
+
 public function toggleFeatured($id)
 {
     $user = User::findOrFail($id);

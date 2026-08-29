@@ -92,4 +92,5 @@ Route::get('/packages/{id}/edit',  [AdminController::class, 'editPackage'])->nam
 Route::post('/packages/{id}/update',[AdminController::class, 'updatePackage'])->name('admin.packages.update');
 Route::post('/users/{id}/reactivate', [AdminController::class, 'reactivateUser'])->name('admin.user.reactivate');
 Route::post('/users/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('admin.user.toggleFeatured');
+Route::post('/users/{id}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.user.deactivate');
 });
