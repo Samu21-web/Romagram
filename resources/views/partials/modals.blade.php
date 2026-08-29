@@ -23,19 +23,24 @@
 
         <div style="margin-bottom:16px;">
             <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">WhatsApp Number</label>
-            <div style="display:flex; border:1.5px solid #e5e7eb; border-radius:12px; overflow:hidden; background:white;">
-                <select id="loginCountryCode" style="padding:12px 10px; background:#f9fafb; border:none; border-right:1.5px solid #e5e7eb; color:#374151; font-size:14px; outline:none;">
-                    <option value="+254">🇰🇪 +254</option>
-                    <option value="+255">🇹🇿 +255</option>
-                    <option value="+256">🇺🇬 +256</option>
-                    <option value="+234">🇳🇬 +234</option>
-                    <option value="+233">🇬🇭 +233</option>
-                    <option value="+27">🇿🇦 +27</option>
-                    <option value="+44">🇬🇧 +44</option>
-                    <option value="+1">🇺🇸 +1</option>
-                </select>
-                <input type="tel" id="loginPhone" placeholder="712345678" maxlength="9"
-                    style="flex:1; border:none; outline:none; padding:12px 14px; font-size:15px; color:#111827;">
+            <div style="position:relative;">
+                <div style="display:flex; border:1.5px solid #e5e7eb; border-radius:12px; overflow:hidden; background:white;">
+                    <button type="button" id="loginCountryBtn" onclick="toggleCountryDropdown('login')"
+                        style="display:flex; align-items:center; gap:6px; padding:12px 10px; background:#f9fafb; border:none; border-right:1.5px solid #e5e7eb; color:#374151; font-size:14px; cursor:pointer; white-space:nowrap;">
+                        <img id="loginCountryFlag" src="https://flagcdn.com/20x15/ke.png" style="width:20px; height:15px; object-fit:cover; border-radius:2px;">
+                        <span id="loginCountryCodeText">+254</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size:9px; color:#9ca3af;"></i>
+                    </button>
+                    <input type="hidden" id="loginCountryCode" value="+254">
+                    <input type="tel" id="loginPhone" placeholder="712345678" maxlength="9"
+                        style="flex:1; border:none; outline:none; padding:12px 14px; font-size:15px; color:#111827; min-width:0;">
+                </div>
+
+                <div id="loginCountryDropdown" style="display:none; position:absolute; top:100%; left:0; z-index:200; background:white; border:1px solid #e5e7eb; border-radius:10px; width:280px; max-height:280px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.18); margin-top:4px;">
+                    <input type="text" id="loginCountrySearch" placeholder="Search country..." oninput="filterCountryList('login')"
+                        style="width:100%; padding:10px 12px; border:none; border-bottom:1px solid #e5e7eb; outline:none; box-sizing:border-box; font-size:14px;">
+                    <div id="loginCountryList" style="max-height:230px; overflow-y:auto;"></div>
+                </div>
             </div>
             <p id="loginPhoneError" style="color:#ef4444; font-size:12px; margin-top:4px; display:none;">
                 <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>Number must start with 7 or 1 and be 9 digits
@@ -63,7 +68,7 @@
             Sign In
         </button>
 
-        <p style="text-align:center; color:#6b7280; font-size:16px; margin-top:20px;">
+        <p style="text-align:center; color:#6b7280; font-size:14px; margin-top:20px;">
             Don't have an account?
             <a href="#" onclick="switchModal('loginModal','registerModal')" style="color:#720e9e; font-weight:600; text-decoration:none;">Join free</a>
         </p>
@@ -173,20 +178,24 @@
 
             <div style="margin-bottom:6px;">
                 <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">WhatsApp Number</label>
-                <div style="display:flex; border:1.5px solid #e5e7eb; border-radius:12px; overflow:hidden;">
-                    <select id="countryCode" style="padding:12px 10px; background:#f9fafb; border:none; border-right:1.5px solid #e5e7eb; color:#374151; font-size:14px; outline:none;">
-                        <option value="+254">🇰🇪 +254</option>
-                        <option value="+255">🇹🇿 +255</option>
-                        <option value="+256">🇺🇬 +256</option>
-                        <option value="+234">🇳🇬 +234</option>
-                        <option value="+233">🇬🇭 +233</option>
-                        <option value="+27">🇿🇦 +27</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+1">🇺🇸 +1</option>
-                        <option value="+33">🇫🇷 +33</option>
-                    </select>
-                    <input type="tel" id="regPhone" placeholder="712345678" maxlength="9" oninput="validatePhone()"
-                        style="flex:1; border:none; outline:none; padding:12px 14px; font-size:15px; color:#111827;">
+                <div style="position:relative;">
+                    <div style="display:flex; border:1.5px solid #e5e7eb; border-radius:12px; overflow:hidden;">
+                        <button type="button" id="regCountryBtn" onclick="toggleCountryDropdown('reg')"
+                            style="display:flex; align-items:center; gap:6px; padding:12px 10px; background:#f9fafb; border:none; border-right:1.5px solid #e5e7eb; color:#374151; font-size:14px; cursor:pointer; white-space:nowrap;">
+                            <img id="regCountryFlag" src="https://flagcdn.com/20x15/ke.png" style="width:20px; height:15px; object-fit:cover; border-radius:2px;">
+                            <span id="regCountryCodeText">+254</span>
+                            <i class="fa-solid fa-chevron-down" style="font-size:9px; color:#9ca3af;"></i>
+                        </button>
+                        <input type="hidden" id="countryCode" value="+254">
+                        <input type="tel" id="regPhone" placeholder="712345678" maxlength="9" oninput="validatePhone()"
+                            style="flex:1; border:none; outline:none; padding:12px 14px; font-size:15px; color:#111827; min-width:0;">
+                    </div>
+
+                    <div id="regCountryDropdown" style="display:none; position:absolute; top:100%; left:0; z-index:200; background:white; border:1px solid #e5e7eb; border-radius:10px; width:280px; max-height:280px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.18); margin-top:4px;">
+                        <input type="text" id="regCountrySearch" placeholder="Search country..." oninput="filterCountryList('reg')"
+                            style="width:100%; padding:10px 12px; border:none; border-bottom:1px solid #e5e7eb; outline:none; box-sizing:border-box; font-size:14px;">
+                        <div id="regCountryList" style="max-height:230px; overflow-y:auto;"></div>
+                    </div>
                 </div>
                 <p id="phoneError" style="color:#ef4444; font-size:12px; margin-top:4px; display:none;">
                     <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>Must start with 7 or 1 and be exactly 9 digits
@@ -201,24 +210,24 @@
                     <i class="fa-solid fa-circle-exclamation" style="margin-right:4px;"></i>Please enter a valid email address
                 </p>
             </div>
-    
-    <div style="margin-bottom:24px;">
-    <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">County</label>
-    <select id="regCity"
-        style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:15px; color:#111827; outline:none; box-sizing:border-box; background:white;">
-        <option value="">Select your county</option>
-        <option>Mombasa</option><option>Kwale</option><option>Kilifi</option><option>Tana River</option><option>Lamu</option>
-        <option>Taita-Taveta</option><option>Garissa</option><option>Wajir</option><option>Mandera</option><option>Marsabit</option>
-        <option>Isiolo</option><option>Meru</option><option>Tharaka-Nithi</option><option>Embu</option><option>Kitui</option>
-        <option>Machakos</option><option>Makueni</option><option>Nyandarua</option><option>Nyeri</option><option>Kirinyaga</option>
-        <option>Murang'a</option><option>Kiambu</option><option>Turkana</option><option>West Pokot</option><option>Samburu</option>
-        <option>Trans Nzoia</option><option>Uasin Gishu</option><option>Elgeyo-Marakwet</option><option>Nandi</option><option>Baringo</option>
-        <option>Laikipia</option><option>Nakuru</option><option>Narok</option><option>Kajiado</option><option>Kericho</option>
-        <option>Bomet</option><option>Kakamega</option><option>Vihiga</option><option>Bungoma</option><option>Busia</option>
-        <option>Siaya</option><option>Kisumu</option><option>Homa Bay</option><option>Migori</option><option>Kisii</option>
-        <option>Nyamira</option><option>Nairobi</option>
-    </select>
-</div>
+
+            <div style="margin-bottom:24px;">
+                <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">County</label>
+                <select id="regCity"
+                    style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:15px; color:#111827; outline:none; box-sizing:border-box; background:white;">
+                    <option value="">Select your county</option>
+                    <option>Mombasa</option><option>Kwale</option><option>Kilifi</option><option>Tana River</option><option>Lamu</option>
+                    <option>Taita-Taveta</option><option>Garissa</option><option>Wajir</option><option>Mandera</option><option>Marsabit</option>
+                    <option>Isiolo</option><option>Meru</option><option>Tharaka-Nithi</option><option>Embu</option><option>Kitui</option>
+                    <option>Machakos</option><option>Makueni</option><option>Nyandarua</option><option>Nyeri</option><option>Kirinyaga</option>
+                    <option>Murang'a</option><option>Kiambu</option><option>Turkana</option><option>West Pokot</option><option>Samburu</option>
+                    <option>Trans Nzoia</option><option>Uasin Gishu</option><option>Elgeyo-Marakwet</option><option>Nandi</option><option>Baringo</option>
+                    <option>Laikipia</option><option>Nakuru</option><option>Narok</option><option>Kajiado</option><option>Kericho</option>
+                    <option>Bomet</option><option>Kakamega</option><option>Vihiga</option><option>Bungoma</option><option>Busia</option>
+                    <option>Siaya</option><option>Kisumu</option><option>Homa Bay</option><option>Migori</option><option>Kisii</option>
+                    <option>Nyamira</option><option>Nairobi</option>
+                </select>
+            </div>
 
             <div style="display:flex; gap:12px;">
                 <button onclick="prevStep(3)" style="flex:1; border:2px solid #e5e7eb; background:white; color:#6b7280; font-weight:600; font-size:15px; padding:13px; border-radius:999px; cursor:pointer;">
@@ -430,6 +439,265 @@
 
 @push('scripts')
 <script>
+    // ── Country codes (full list) ──
+    const countryCodes = [
+        {name:"Kenya",code:"+254",iso:"ke"},
+        {name:"Afghanistan",code:"+93",iso:"af"},
+        {name:"Albania",code:"+355",iso:"al"},
+        {name:"Algeria",code:"+213",iso:"dz"},
+        {name:"Andorra",code:"+376",iso:"ad"},
+        {name:"Angola",code:"+244",iso:"ao"},
+        {name:"Argentina",code:"+54",iso:"ar"},
+        {name:"Armenia",code:"+374",iso:"am"},
+        {name:"Australia",code:"+61",iso:"au"},
+        {name:"Austria",code:"+43",iso:"at"},
+        {name:"Azerbaijan",code:"+994",iso:"az"},
+        {name:"Bahamas",code:"+1242",iso:"bs"},
+        {name:"Bahrain",code:"+973",iso:"bh"},
+        {name:"Bangladesh",code:"+880",iso:"bd"},
+        {name:"Barbados",code:"+1246",iso:"bb"},
+        {name:"Belarus",code:"+375",iso:"by"},
+        {name:"Belgium",code:"+32",iso:"be"},
+        {name:"Belize",code:"+501",iso:"bz"},
+        {name:"Benin",code:"+229",iso:"bj"},
+        {name:"Bhutan",code:"+975",iso:"bt"},
+        {name:"Bolivia",code:"+591",iso:"bo"},
+        {name:"Bosnia and Herzegovina",code:"+387",iso:"ba"},
+        {name:"Botswana",code:"+267",iso:"bw"},
+        {name:"Brazil",code:"+55",iso:"br"},
+        {name:"Brunei",code:"+673",iso:"bn"},
+        {name:"Bulgaria",code:"+359",iso:"bg"},
+        {name:"Burkina Faso",code:"+226",iso:"bf"},
+        {name:"Burundi",code:"+257",iso:"bi"},
+        {name:"Cambodia",code:"+855",iso:"kh"},
+        {name:"Cameroon",code:"+237",iso:"cm"},
+        {name:"Canada",code:"+1",iso:"ca"},
+        {name:"Cape Verde",code:"+238",iso:"cv"},
+        {name:"Central African Republic",code:"+236",iso:"cf"},
+        {name:"Chad",code:"+235",iso:"td"},
+        {name:"Chile",code:"+56",iso:"cl"},
+        {name:"China",code:"+86",iso:"cn"},
+        {name:"Colombia",code:"+57",iso:"co"},
+        {name:"Comoros",code:"+269",iso:"km"},
+        {name:"Congo (DRC)",code:"+243",iso:"cd"},
+        {name:"Congo (Republic)",code:"+242",iso:"cg"},
+        {name:"Costa Rica",code:"+506",iso:"cr"},
+        {name:"Croatia",code:"+385",iso:"hr"},
+        {name:"Cuba",code:"+53",iso:"cu"},
+        {name:"Cyprus",code:"+357",iso:"cy"},
+        {name:"Czech Republic",code:"+420",iso:"cz"},
+        {name:"Denmark",code:"+45",iso:"dk"},
+        {name:"Djibouti",code:"+253",iso:"dj"},
+        {name:"Dominica",code:"+1767",iso:"dm"},
+        {name:"Dominican Republic",code:"+1809",iso:"do"},
+        {name:"Ecuador",code:"+593",iso:"ec"},
+        {name:"Egypt",code:"+20",iso:"eg"},
+        {name:"El Salvador",code:"+503",iso:"sv"},
+        {name:"Equatorial Guinea",code:"+240",iso:"gq"},
+        {name:"Eritrea",code:"+291",iso:"er"},
+        {name:"Estonia",code:"+372",iso:"ee"},
+        {name:"Eswatini",code:"+268",iso:"sz"},
+        {name:"Ethiopia",code:"+251",iso:"et"},
+        {name:"Fiji",code:"+679",iso:"fj"},
+        {name:"Finland",code:"+358",iso:"fi"},
+        {name:"France",code:"+33",iso:"fr"},
+        {name:"Gabon",code:"+241",iso:"ga"},
+        {name:"Gambia",code:"+220",iso:"gm"},
+        {name:"Georgia",code:"+995",iso:"ge"},
+        {name:"Germany",code:"+49",iso:"de"},
+        {name:"Ghana",code:"+233",iso:"gh"},
+        {name:"Greece",code:"+30",iso:"gr"},
+        {name:"Grenada",code:"+1473",iso:"gd"},
+        {name:"Guatemala",code:"+502",iso:"gt"},
+        {name:"Guinea",code:"+224",iso:"gn"},
+        {name:"Guinea-Bissau",code:"+245",iso:"gw"},
+        {name:"Guyana",code:"+592",iso:"gy"},
+        {name:"Haiti",code:"+509",iso:"ht"},
+        {name:"Honduras",code:"+504",iso:"hn"},
+        {name:"Hungary",code:"+36",iso:"hu"},
+        {name:"Iceland",code:"+354",iso:"is"},
+        {name:"India",code:"+91",iso:"in"},
+        {name:"Indonesia",code:"+62",iso:"id"},
+        {name:"Iran",code:"+98",iso:"ir"},
+        {name:"Iraq",code:"+964",iso:"iq"},
+        {name:"Ireland",code:"+353",iso:"ie"},
+        {name:"Israel",code:"+972",iso:"il"},
+        {name:"Italy",code:"+39",iso:"it"},
+        {name:"Jamaica",code:"+1876",iso:"jm"},
+        {name:"Japan",code:"+81",iso:"jp"},
+        {name:"Jordan",code:"+962",iso:"jo"},
+        {name:"Kazakhstan",code:"+7",iso:"kz"},
+        {name:"Kiribati",code:"+686",iso:"ki"},
+        {name:"Kuwait",code:"+965",iso:"kw"},
+        {name:"Kyrgyzstan",code:"+996",iso:"kg"},
+        {name:"Laos",code:"+856",iso:"la"},
+        {name:"Latvia",code:"+371",iso:"lv"},
+        {name:"Lebanon",code:"+961",iso:"lb"},
+        {name:"Lesotho",code:"+266",iso:"ls"},
+        {name:"Liberia",code:"+231",iso:"lr"},
+        {name:"Libya",code:"+218",iso:"ly"},
+        {name:"Liechtenstein",code:"+423",iso:"li"},
+        {name:"Lithuania",code:"+370",iso:"lt"},
+        {name:"Luxembourg",code:"+352",iso:"lu"},
+        {name:"Madagascar",code:"+261",iso:"mg"},
+        {name:"Malawi",code:"+265",iso:"mw"},
+        {name:"Malaysia",code:"+60",iso:"my"},
+        {name:"Maldives",code:"+960",iso:"mv"},
+        {name:"Mali",code:"+223",iso:"ml"},
+        {name:"Malta",code:"+356",iso:"mt"},
+        {name:"Mauritania",code:"+222",iso:"mr"},
+        {name:"Mauritius",code:"+230",iso:"mu"},
+        {name:"Mexico",code:"+52",iso:"mx"},
+        {name:"Moldova",code:"+373",iso:"md"},
+        {name:"Monaco",code:"+377",iso:"mc"},
+        {name:"Mongolia",code:"+976",iso:"mn"},
+        {name:"Montenegro",code:"+382",iso:"me"},
+        {name:"Morocco",code:"+212",iso:"ma"},
+        {name:"Mozambique",code:"+258",iso:"mz"},
+        {name:"Myanmar",code:"+95",iso:"mm"},
+        {name:"Namibia",code:"+264",iso:"na"},
+        {name:"Nepal",code:"+977",iso:"np"},
+        {name:"Netherlands",code:"+31",iso:"nl"},
+        {name:"New Zealand",code:"+64",iso:"nz"},
+        {name:"Nicaragua",code:"+505",iso:"ni"},
+        {name:"Niger",code:"+227",iso:"ne"},
+        {name:"Nigeria",code:"+234",iso:"ng"},
+        {name:"North Korea",code:"+850",iso:"kp"},
+        {name:"North Macedonia",code:"+389",iso:"mk"},
+        {name:"Norway",code:"+47",iso:"no"},
+        {name:"Oman",code:"+968",iso:"om"},
+        {name:"Pakistan",code:"+92",iso:"pk"},
+        {name:"Panama",code:"+507",iso:"pa"},
+        {name:"Papua New Guinea",code:"+675",iso:"pg"},
+        {name:"Paraguay",code:"+595",iso:"py"},
+        {name:"Peru",code:"+51",iso:"pe"},
+        {name:"Philippines",code:"+63",iso:"ph"},
+        {name:"Poland",code:"+48",iso:"pl"},
+        {name:"Portugal",code:"+351",iso:"pt"},
+        {name:"Qatar",code:"+974",iso:"qa"},
+        {name:"Romania",code:"+40",iso:"ro"},
+        {name:"Russia",code:"+7",iso:"ru"},
+        {name:"Rwanda",code:"+250",iso:"rw"},
+        {name:"Saudi Arabia",code:"+966",iso:"sa"},
+        {name:"Senegal",code:"+221",iso:"sn"},
+        {name:"Serbia",code:"+381",iso:"rs"},
+        {name:"Seychelles",code:"+248",iso:"sc"},
+        {name:"Sierra Leone",code:"+232",iso:"sl"},
+        {name:"Singapore",code:"+65",iso:"sg"},
+        {name:"Slovakia",code:"+421",iso:"sk"},
+        {name:"Slovenia",code:"+386",iso:"si"},
+        {name:"Somalia",code:"+252",iso:"so"},
+        {name:"South Africa",code:"+27",iso:"za"},
+        {name:"South Korea",code:"+82",iso:"kr"},
+        {name:"South Sudan",code:"+211",iso:"ss"},
+        {name:"Spain",code:"+34",iso:"es"},
+        {name:"Sri Lanka",code:"+94",iso:"lk"},
+        {name:"Sudan",code:"+249",iso:"sd"},
+        {name:"Suriname",code:"+597",iso:"sr"},
+        {name:"Sweden",code:"+46",iso:"se"},
+        {name:"Switzerland",code:"+41",iso:"ch"},
+        {name:"Syria",code:"+963",iso:"sy"},
+        {name:"Taiwan",code:"+886",iso:"tw"},
+        {name:"Tajikistan",code:"+992",iso:"tj"},
+        {name:"Tanzania",code:"+255",iso:"tz"},
+        {name:"Thailand",code:"+66",iso:"th"},
+        {name:"Togo",code:"+228",iso:"tg"},
+        {name:"Trinidad and Tobago",code:"+1868",iso:"tt"},
+        {name:"Tunisia",code:"+216",iso:"tn"},
+        {name:"Turkey",code:"+90",iso:"tr"},
+        {name:"Turkmenistan",code:"+993",iso:"tm"},
+        {name:"Uganda",code:"+256",iso:"ug"},
+        {name:"Ukraine",code:"+380",iso:"ua"},
+        {name:"United Arab Emirates",code:"+971",iso:"ae"},
+        {name:"United Kingdom",code:"+44",iso:"gb"},
+        {name:"United States",code:"+1",iso:"us"},
+        {name:"Uruguay",code:"+598",iso:"uy"},
+        {name:"Uzbekistan",code:"+998",iso:"uz"},
+        {name:"Vanuatu",code:"+678",iso:"vu"},
+        {name:"Venezuela",code:"+58",iso:"ve"},
+        {name:"Vietnam",code:"+84",iso:"vn"},
+        {name:"Yemen",code:"+967",iso:"ye"},
+        {name:"Zambia",code:"+260",iso:"zm"},
+        {name:"Zimbabwe",code:"+263",iso:"zw"},
+    ];
+
+    // ── Custom searchable country dropdown ──
+    function renderCountryList(prefix, filterText = '') {
+        const listEl = document.getElementById(prefix + 'CountryList');
+        listEl.innerHTML = '';
+        const filtered = countryCodes.filter(c =>
+            c.name.toLowerCase().includes(filterText.toLowerCase()) ||
+            c.code.includes(filterText)
+        );
+        filtered.forEach(c => {
+            const item = document.createElement('div');
+            item.style.cssText = 'display:flex; align-items:center; gap:8px; padding:9px 12px; cursor:pointer; font-size:14px; color:#374151;';
+            item.onmouseover = () => item.style.background = '#f9fafb';
+            item.onmouseout = () => item.style.background = 'white';
+            item.innerHTML = `<img src="https://flagcdn.com/20x15/${c.iso}.png" style="width:20px; height:15px; object-fit:cover; border-radius:2px; flex-shrink:0;"><span style="flex:1;">${c.name}</span><span style="color:#9ca3af;">${c.code}</span>`;
+            item.onclick = () => selectCountry(prefix, c);
+            listEl.appendChild(item);
+        });
+    }
+
+    function selectCountry(prefix, country) {
+        document.getElementById(prefix + 'CountryCode').value = country.code;
+        document.getElementById(prefix + 'CountryCodeText').textContent = country.code;
+        document.getElementById(prefix + 'CountryFlag').src = `https://flagcdn.com/20x15/${country.iso}.png`;
+        document.getElementById(prefix + 'CountryDropdown').style.display = 'none';
+    }
+
+    function toggleCountryDropdown(prefix) {
+        const dropdown = document.getElementById(prefix + 'CountryDropdown');
+        const isOpen = dropdown.style.display === 'block';
+        document.querySelectorAll('[id$="CountryDropdown"]').forEach(d => d.style.display = 'none');
+        if (!isOpen) {
+            dropdown.style.display = 'block';
+            renderCountryList(prefix);
+            const search = document.getElementById(prefix + 'CountrySearch');
+            search.value = '';
+            setTimeout(() => search.focus(), 50);
+        }
+    }
+
+    function filterCountryList(prefix) {
+        const val = document.getElementById(prefix + 'CountrySearch').value;
+        renderCountryList(prefix, val);
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function (e) {
+        ['login', 'reg'].forEach(prefix => {
+            const dropdown = document.getElementById(prefix + 'CountryDropdown');
+            const btn = document.getElementById(prefix + 'CountryBtn');
+            if (dropdown && dropdown.style.display === 'block' && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+    });
+
+    // Detect user's country via IP geolocation and set as default selection
+    function setDefaultCountryFromLocation() {
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                const isoCode = (data.country_code || '').toLowerCase();
+                if (!isoCode) return;
+                const match = countryCodes.find(c => c.iso === isoCode);
+                if (match) {
+                    selectCountry('login', match);
+                    selectCountry('reg', match);
+                }
+            })
+            .catch(() => {
+                // Silently keep Kenya as default if geolocation fails
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        setDefaultCountryFromLocation();
+    });
+
     // ── Modal controls ──
     function openModal(id) {
         document.getElementById('modalBackdrop').style.display = 'block';
@@ -637,18 +905,18 @@
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = '/register';
-const fields = {
-    '_token': '{{ csrf_token() }}',
-    'gender': selectedGender,
-    'interested_in': selectedLooking,
-    'name': document.getElementById('regNickname').value,
-    'phone': document.getElementById('countryCode').value + document.getElementById('regPhone').value,
-    'email': document.getElementById('regEmail').value,
-    'city': document.getElementById('regCity').value,
-    'age': selectedAge,
-    'password': password,
-    'password_confirmation': confirm,
-};
+        const fields = {
+            '_token': '{{ csrf_token() }}',
+            'gender': selectedGender,
+            'interested_in': selectedLooking,
+            'name': document.getElementById('regNickname').value,
+            'phone': document.getElementById('countryCode').value + document.getElementById('regPhone').value,
+            'email': document.getElementById('regEmail').value,
+            'city': document.getElementById('regCity').value,
+            'age': selectedAge,
+            'password': password,
+            'password_confirmation': confirm,
+        };
         Object.entries(fields).forEach(([key, val]) => {
             const input = document.createElement('input');
             input.type = 'hidden';
