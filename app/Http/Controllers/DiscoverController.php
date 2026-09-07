@@ -37,6 +37,7 @@ class DiscoverController extends Controller
                 'profile'      => $profile,
                 'isLocked'     => $isLocked,
                 'favouriteIds' => $data['favouriteIds'],
+                'isPremium'    => $data['isPremium'],
             ])->render();
         }
 

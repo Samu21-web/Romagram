@@ -17,7 +17,7 @@
                 </div>
             </div>
         @endif
-        @if($isLocked)
+        @if(!$isPremium)
             <div style="position:absolute; top:10px; left:10px; background:rgba(245,158,11,0.9); backdrop-filter:blur(4px); padding:4px 10px; border-radius:999px; display:flex; align-items:center; gap:5px;">
                 <i class="fa-solid fa-crown" style="font-size:10px; color:#111b21;"></i>
                 <span style="color:#111b21; font-size:10px; font-weight:700;">Premium</span>

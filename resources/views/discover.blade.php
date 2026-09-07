@@ -135,7 +135,7 @@
             <div class="rp-discover-grid" id="discoverGrid">
                 @foreach($profiles as $index => $profile)
                     @php $isLocked = !$isPremium && $index > 0; @endphp
-                    @include('partials.discover-card', ['profile' => $profile, 'isLocked' => $isLocked, 'favouriteIds' => $favouriteIds])
+                    @include('partials.discover-card', ['profile' => $profile, 'isLocked' => $isLocked, 'favouriteIds' => $favouriteIds, 'isPremium' => $isPremium])
                 @endforeach
             </div>
 
