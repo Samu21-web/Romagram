@@ -34,6 +34,8 @@
                 </a>
             </div>
         @else
+            @php $isPremium = in_array(auth()->user()->subscription_plan, ['premium', 'gold']); @endphp
+
             <div id="favGrid" class="grid grid-cols-2 gap-2.5 sm:[grid-template-columns:repeat(auto-fill,minmax(220px,1fr))] sm:gap-5">
                 @foreach($favourites as $profile)
                     <div id="fav-card-{{ $profile->id }}"
@@ -96,13 +98,24 @@
 
                             <!-- Action buttons -->
                             <div class="flex gap-1.5 sm:gap-2">
-                                <a href="{{ route('chat.open', $profile->id) }}"
-                                    class="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-[10px] px-1 py-2 sm:px-2.5 sm:py-2.5 text-[11px] sm:text-[13px] font-semibold text-[#d1d7db] no-underline"
-                                    style="background:transparent; border:1.5px solid rgba(255,255,255,0.2); transition:all 0.2s;"
-                                    onmouseover="this.style.background='rgba(255,255,255,0.08)'; this.style.color='white';"
-                                    onmouseout="this.style.background='transparent'; this.style.color='#d1d7db';">
-                                    <i class="fa-solid fa-message"></i> <span class="whitespace-nowrap">Chat</span>
-                                </a>
+                                @if($isPremium)
+                                    <a href="{{ route('chat.open', $profile->id) }}"
+                                        class="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-[10px] px-1 py-2 sm:px-2.5 sm:py-2.5 text-[11px] sm:text-[13px] font-semibold text-[#d1d7db] no-underline"
+                                        style="background:transparent; border:1.5px solid rgba(255,255,255,0.2); transition:all 0.2s;"
+                                        onmouseover="this.style.background='rgba(255,255,255,0.08)'; this.style.color='white';"
+                                        onmouseout="this.style.background='transparent'; this.style.color='#d1d7db';">
+                                        <i class="fa-solid fa-message"></i> <span class="whitespace-nowrap">Chat</span>
+                                    </a>
+                                @else
+                                    <a href="{{ route('profile.view', $profile->id) }}"
+                                        class="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-[10px] px-1 py-2 sm:px-2.5 sm:py-2.5 text-[11px] sm:text-[13px] font-semibold text-[#d1d7db] no-underline relative"
+                                        style="background:transparent; border:1.5px solid rgba(255,255,255,0.2); transition:all 0.2s;"
+                                        onmouseover="this.style.background='rgba(255,255,255,0.08)'; this.style.color='white';"
+                                        onmouseout="this.style.background='transparent'; this.style.color='#d1d7db';">
+                                        <i class="fa-solid fa-message"></i> <span class="whitespace-nowrap">Chat</span>
+                                        <i class="fa-solid fa-lock" style="font-size:9px; margin-left:2px; color:#f59e0b;"></i>
+                                    </a>
+                                @endif
                                 <a href="{{ route('profile.view', $profile->id) }}"
                                     class="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-[10px] px-1 py-2 sm:px-2.5 sm:py-2.5 text-[11px] sm:text-[13px] font-semibold text-[#d1d7db] no-underline"
                                     style="background:transparent; border:1.5px solid rgba(255,255,255,0.2); transition:all 0.2s;"
