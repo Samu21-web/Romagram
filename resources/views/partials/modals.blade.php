@@ -213,7 +213,7 @@
 
             <div style="margin-bottom:24px;">
                 <label style="display:block; font-size:13px; font-weight:600; color:#374151; margin-bottom:6px;">County</label>
-                <select id="regCity"
+                <select id="regCity" required
                     style="width:100%; border:1.5px solid #e5e7eb; border-radius:12px; padding:13px 16px; font-size:15px; color:#111827; outline:none; box-sizing:border-box; background:white;">
                     <option value="">Select your county</option>
                     <option>Mombasa</option><option>Kwale</option><option>Kilifi</option><option>Tana River</option><option>Lamu</option>
