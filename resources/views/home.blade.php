@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Welcome')
+@section('title', 'Find Love at Your Own Pace')
 
 @section('content')
     @include('partials.hero')
