@@ -59,7 +59,7 @@
                             onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
                     </div>
 
-<!-- Email -->
+                    <!-- Email -->
                     <div style="margin-bottom:16px;">
                         <label style="display:block; color:#8696a0; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Email</label>
                         <input type="email" name="email" value="{{ old('email', $user->email) }}" required
@@ -84,6 +84,21 @@
                             style="width:100%; background:#2a3942; border:1px solid rgba(255,255,255,0.1); color:white; font-size:14px; padding:11px 14px; border-radius:10px; outline:none; box-sizing:border-box;"
                             onfocus="this.style.borderColor='rgba(255,255,255,0.3)'"
                             onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+                    </div>
+
+                    <!-- I am looking for -->
+                    <div style="margin-bottom:24px;">
+                        <label style="display:block; color:#8696a0; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">I am looking for</label>
+                        <div style="display:flex; flex-direction:column; gap:10px;">
+                            @foreach(['man' => 'A man', 'woman' => 'A woman', 'anyone' => 'Anyone'] as $value => $label)
+                                <label style="display:flex; align-items:center; gap:12px; background:#2a3942; border:1.5px solid {{ old('interested_in', $user->interested_in) === $value ? '#720e9e' : 'rgba(255,255,255,0.1)' }}; color:white; font-size:14px; padding:12px 14px; border-radius:10px; cursor:pointer; transition:border-color 0.15s;">
+                                    <input type="radio" name="interested_in" value="{{ $value }}"
+                                        {{ old('interested_in', $user->interested_in) === $value ? 'checked' : '' }}
+                                        style="accent-color:#720e9e; width:16px; height:16px;">
+                                    {{ $label }}
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
 
                     <button type="submit"

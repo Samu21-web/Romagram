@@ -20,18 +20,20 @@ public function update(Request $request)
     $user = auth()->user();
 
     $request->validate([
-        'name'   => 'required|string|min:2|max:30',
-        'email'  => 'required|email|unique:users,email,' . $user->id,
-        'phone'  => 'required|unique:users,phone,' . $user->id,
-        'city'   => 'nullable|string',
-        'avatar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        'name'           => 'required|string|min:2|max:30',
+        'email'          => 'required|email|unique:users,email,' . $user->id,
+        'phone'          => 'required|unique:users,phone,' . $user->id,
+        'city'           => 'nullable|string',
+        'avatar'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        'interested_in'  => 'required|in:man,woman,anyone',
     ]);
 
     $data = [
-        'name'  => $request->name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'city'  => $request->city,
+        'name'          => $request->name,
+        'email'         => $request->email,
+        'phone'         => $request->phone,
+        'city'          => $request->city,
+        'interested_in' => $request->interested_in,
     ];
 
     if ($request->hasFile('avatar')) {

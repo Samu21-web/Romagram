@@ -56,6 +56,21 @@ class DiscoverController extends Controller
         return $isMobile ? 16 : 15;
     }
 
+    /**
+     * Maps interested_in values ('man'/'woman') to whatever the gender
+     * column actually stores. If gender already stores 'man'/'woman',
+     * this just passes the value through unchanged.
+     */
+    private function mapInterestedInToGender(string $interestedIn): string
+    {
+        $map = [
+            'man'   => 'male',
+            'woman' => 'female',
+        ];
+
+        return $map[$interestedIn] ?? $interestedIn;
+    }
+
     private function getProfiles(Request $request, int $page): array
     {
         $user      = auth()->user();
@@ -76,11 +91,11 @@ class DiscoverController extends Controller
                       ->where('profile_complete', true)
                       ->where('is_deactivated', false);
 
-if ($request->gender) {
-    $q->where('gender', $request->gender);
-} elseif ($user->interested_in !== 'any') {
-    $q->where('gender', $user->interested_in);
-}
+            if ($request->gender) {
+                $q->where('gender', $request->gender);
+            } elseif ($user->interested_in && $user->interested_in !== 'anyone') {
+                $q->where('gender', $this->mapInterestedInToGender($user->interested_in));
+            }
 
             if ($request->min_age) $q->where('age', '>=', (int) $request->min_age);
             if ($request->max_age) $q->where('age', '<=', (int) $request->max_age);
