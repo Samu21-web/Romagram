@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Photo;
+use App\Services\ImageCompressionService;
 
 class ProfileController extends Controller
 {
@@ -15,38 +16,42 @@ class ProfileController extends Controller
         return view('my-profile', compact('user'));
     }
 
-public function update(Request $request)
-{
-    $user = auth()->user();
+    public function update(Request $request)
+    {
+        $user = auth()->user();
 
-    $request->validate([
-        'name'           => 'required|string|min:2|max:30',
-        'email'          => 'required|email|unique:users,email,' . $user->id,
-        'phone'          => 'required|unique:users,phone,' . $user->id,
-        'city'           => 'nullable|string',
-        'avatar'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
-        'interested_in'  => 'required|in:man,woman,anyone',
-    ]);
+        $request->validate([
+            'name'          => 'required|string|min:2|max:30',
+            'email'         => 'required|email|unique:users,email,' . $user->id,
+            'phone'         => 'required|unique:users,phone,' . $user->id,
+            'city'          => 'nullable|string',
+            'avatar'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'interested_in' => 'required|in:man,woman,anyone',
+        ]);
 
-    $data = [
-        'name'          => $request->name,
-        'email'         => $request->email,
-        'phone'         => $request->phone,
-        'city'          => $request->city,
-        'interested_in' => $request->interested_in,
-    ];
+        $data = [
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'phone'         => $request->phone,
+            'city'          => $request->city,
+            'interested_in' => $request->interested_in,
+        ];
 
-    if ($request->hasFile('avatar')) {
-        if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $data['avatar'] = ImageCompressionService::storeUploadedAsWebp(
+                $request->file('avatar'),
+                'avatars',
+                'public'
+            );
         }
-        $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+
+        $user->update($data);
+
+        return back()->with('success', 'Profile updated successfully!');
     }
-
-    $user->update($data);
-
-    return back()->with('success', 'Profile updated successfully!');
-}
 
     public function updatePassword(Request $request)
     {
@@ -85,7 +90,7 @@ public function update(Request $request)
         $nextPosition = $existingCount;
 
         foreach ($request->file('photos') as $file) {
-            $path = $file->store('photos', 'public');
+            $path = ImageCompressionService::storeUploadedAsWebp($file, 'photos', 'public');
 
             Photo::create([
                 'user_id'  => $user->id,

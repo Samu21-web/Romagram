@@ -12,6 +12,7 @@ use App\Http\Controllers\MatchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\AdminImageCompressionController;
 
 // ── Public ──
 Route::get('/', function () {
@@ -100,4 +101,6 @@ Route::post('/packages/{id}/update',[AdminController::class, 'updatePackage'])->
 Route::post('/users/{id}/reactivate', [AdminController::class, 'reactivateUser'])->name('admin.user.reactivate');
 Route::post('/users/{id}/toggle-featured', [AdminController::class, 'toggleFeatured'])->name('admin.user.toggleFeatured');
 Route::post('/users/{id}/deactivate', [AdminController::class, 'deactivateUser'])->name('admin.user.deactivate');
+Route::get('/compress-images/pending', [AdminImageCompressionController::class, 'pendingCount'])->name('admin.images.pending');
+Route::post('/compress-images/batch',  [AdminImageCompressionController::class, 'compressBatch'])->name('admin.images.batch');
 });
