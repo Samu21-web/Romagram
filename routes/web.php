@@ -14,7 +14,14 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 // ── Public ──
-Route::get('/', fn() => view('home'))->name('home');
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('discover');
+    }
+
+    return view('home');
+})->name('home');
+
 Route::get('/login', fn() => redirect('/')->with('open_login', true))->name('login');
 
 // Add to public routes
